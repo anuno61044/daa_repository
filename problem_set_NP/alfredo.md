@@ -2,9 +2,13 @@
 
 ## Índice de problemas
 
+1. 3D Matching
+2. Conjunto dominante
+3. Máximo Corte
+4. Set cover
+5. Número domatic
 
-
-## 3D Matching
+## 1. 3D Matching
 
 ### Definición del problema
 
@@ -23,7 +27,7 @@ Dado:
 - $T =(x,y,z)$ conjunto de triplas
 - $C \subseteq T$
  
-Se puede verificar en tiempo polinomial que cardinalidad de $C = n$ y que todo elemento de $X,Y$ y $Z$ se encuentra una y solo una vez en algún $C_i$.
+Se puede verificar en tiempo polinomial que $|C| = n$ y que todo elemento de $X,Y$ y $Z$ se encuentra una y solo una vez en algún $C_i$.
 
 Entonces podemos afirmar que $3DM \in NP$.
 
@@ -83,7 +87,7 @@ Como $3DM$ es $NP$ y $NP-Hard$ entonces es $NP-Completo$.
 
 $$-*-$$
 
-## Conjunto dominante
+## 2. Conjunto dominante
 
 ### Definición del problema
 
@@ -95,7 +99,7 @@ Hallar el numero dominante de $G$.
 
 ### Solución
 
-Vamos a analizar primeramente el problema **Conjunto dominante** con un $k$ determinado, o sea, comprobar si existe un conjunto dominante de $k$ nodos y demostremos que este problema es *NP-Completo*. Llamemos al problema **K-Dominating-Set**
+Vamos a analizar primeramente el problema **Conjunto dominante** con un $k$ determinado, o sea, comprobar si existe un conjunto dominante de $k$ vértices y demostremos que este problema es *NP-Completo*. Llamemos al problema **K-Dominating-Set**
 
 #### `K-Dominating-Set es NP`
 
@@ -104,11 +108,9 @@ Sean en $<G, k>$ instancia del problema **K-Dominating-Set**:
 - $S$ conjunto de vértices del conjunto dominante
 - $A$ array binario de tamaño $n$ donde para cada vértice $v$ de $G$, si $v \in S \implies A[v] = 1$
 
-El algorito verificado sería:
-- Comprobar que el conjunto dominante sea de tamaño $k$ como máximo. Esto se hace recorriendo $A$ en tiempo $O(n)$. 
+El algoritmo es el siguiente:
+- Comprobar que el conjunto dominante sea de tamaño $k$ como máximo ($O(n)$). 
 - Recorrer todos los vértices del grafo que no están en $S$ y comprobar en $M$ que cada uno tenga al menos un adyacente en $S$, en tiempo $O(n^2)$
-
-Se puede ver entonces que **K-Dominating-Set** es *NP*.
 
 #### `K-Dominating-Set es NP-Hard`
 
@@ -116,7 +118,7 @@ Para probar esto utilizaremos **Vertex Cover** (el problema **Vertex Cover** es 
 
 Sea $G$ y $G^*$ tal que:
 - $G^*$ contiene todos los vértices no aislados y todas las aristas de $G$. 
-- Por cada arista $(u,v)$ en $G$, se crea un nuevo nodo $X_{uv}$ en $G^*$ y se añaden las aristas $(u, X_{uv})$ y $(v, X_{uv})$.
+- Por cada arista $(u,v)$ en $G$, se crea un nuevo vértice $X_{uv}$ en $G^*$ y se añaden las aristas $(u, X_{uv})$ y $(v, X_{uv})$.
 
 (Nótese que esta construcción se realiza en tiempo polinomial)
 
@@ -124,10 +126,10 @@ Probemos que resolver **Vertex Cover** en $G$ es equivalente a resolver **K-Domi
 
 $(\implies)$ Sea $H$ en $G$ el conjunto de vértices de **Vertex Cover**.
 
-Sea un nodo cualquiera $v \in G^*$, tal que $v$ no pertenece a $H$. Hay dos casos:
+Sea un vértice cualquiera $v \in G^*$, tal que $v$ no pertenece a $H$. Hay dos casos:
 
-1. $v \in G \implies$ por definición de **Vertex Cover** existe una arista entre $u$ y un cierto nodo $w$ de $H$ en $G$, por tanto existe una arista entre $v$ y $w$ en $G^*$.
-2. $v \not \in G \implies$ $v$ es uno de los $X_{uv} \in G^*$ y por tanto es adyacente a dos nodos $u$ y $w$ de $G$ tal que $(u,w)$ es arista de $G$, entonces por definición de **Vertex Cover** $u$ o $w$ o ambos perteneces a $H$, entonces existe arista entre $v$ y un nodo de $H$ en $G^*$.
+1. $v \in G \implies$ por definición de **Vertex Cover** existe una arista entre $u$ y un cierto vértice $w$ de $H$ en $G$, por tanto existe una arista entre $v$ y $w$ en $G^*$.
+2. $v \not \in G \implies$ $v$ es uno de los $X_{uv} \in G^*$ y por tanto es adyacente a dos vértices $u$ y $w$ de $G$ tal que $(u,w)$ es arista de $G$, entonces por definición de **Vertex Cover** $u$ o $w$ o ambos perteneces a $H$, entonces existe arista entre $v$ y un vértice de $H$ en $G^*$.
 
 De 1 y 2 por definición de **K-Dominating-Set** $H$ es un **K-Dominating** de $G^*$, con cardinalidad de $H$ menor o igual que $K$.
 
@@ -138,7 +140,7 @@ $(\impliedby)$ Sea $H^*$ en $G^*$ el conjunto de vértices de **K-Dominating-Set
 1. Si $u \in H^*$ o $v \in H^*$, considerando $H^{*′} = H^* - X_{uv}$, se cumple que $H^{*′}$ sigue siendo un **K-Dominating-Set** para $G^*$, con $|H^{*′}| = H^* - 1 \le k$.
 2. Si $u \not \in D$ y $v \not \in D$, considerando $H^{*′} = H^* - X_{Uv} + u$ que sigue siendo un $K-Dominating$ para $G^*$, con $|H^{*′}| = |H^*| \le k$.
 
-Dada una arista $(u,v)$ que pertenece a $G$ se cumple que $u$ o $v$ o ambos pertenecen al **K-Dominating-Set** $H^{*′}$ de $G^*$, pues de lo contrario el nodo $X_{uv}$ de $G^*$ no sería adyacente a ningún nodo del $K-Dominating$ $H^{*′}$ de $G^*$ y por tanto se cumple que $H^{*′}$ es un **Vertex Cover** para $G$, con $|H^{*′}| \le k$.
+Dada una arista $(u,v)$ que pertenece a $G$ se cumple que $u$ o $v$ o ambos pertenecen al **K-Dominating-Set** $H^{*′}$ de $G^*$, pues de lo contrario el vértice $X_{uv}$ de $G^*$ no sería adyacente a ningún vértice del $K-Dominating$ $H^{*′}$ de $G^*$ y por tanto se cumple que $H^{*′}$ es un **Vertex Cover** para $G$, con $|H^{*′}| \le k$.
 
 $$-*-$$
 
@@ -153,26 +155,30 @@ Sea $G=(V,E)$ un grafo con aristas ponderadas. Un corte es una division de los v
 Lo probaremos a partir de **Conjunto independiente** (dado un grafo, saber si en este hay un conjunto independiente de tamaño $k$) el cual sabemos que es NP-Completo.
 
 Sea $G = (V, E)$ y construiremos un grafo $G’ = (V’, E’)$ de la siguiente forma:
-- $V’$ tendrá todos los vértices de $V$ además un vértice $x$ conectado a todos los nodos que pertenecen a $V$. 
+- $V’$ tendrá todos los vértices de $V$ además un vértice $x$ conectado a todos los vértices que pertenecen a $V$. 
 - Por cada arista $e = (u,v) \in E$, agregaremos dos vértices: $u_e$, $v_e$ a $V’$ y cinco aristas $(u_e, v_e)$, $(u, u_e)$, $(v, v_e)$, $(x, u_e)$, $(x, v_e)$ a $E’$, y lo llamaremos el gadget $G_e$ (correspondiente a la arista $e$).
 - Como todas las aristas del grafo $G’$ tendrán peso uno $\implies$ el corte de mayor peso equivale al corte con más aristas. Denominaremos el costo de un corte $S$ como $c(S)$
 
 ![](./images/max-cut01.jpg)
 
-Vamos a probar que si $G$ contiene un conjunto independiente $I \subseteq V$ , tal que $|I| \ge k \implies \exist \ S$ en $G’$ tal que $c(S) \ge k + 4 \times |E|$. Dado un conjunto $I$, construiremos $S$ empezando con $S = I$, entonces por cada arista $e =(u,v) \in E$, analicemos los siguientes casos:
+Vamos a probar que $G$ contiene un conjunto independiente $I \subseteq V$ , tal que $|I| \ge k$ si y solo si $\exist \ S$ en $G’$ tal que $c(S) \ge k + 4 \times |E|$. 
+
+($\implies$) Dado un conjunto $I$, construiremos $S$ empezando con $S = I$, entonces por cada arista $e =(u,v) \in E$, analicemos los siguientes casos:
 - $u \in I$ y $v \not \in I \implies$ agregamos $v_e$ a $S$ (análogamente si $u \not \in S$ y $v \in S$). Notemos que en cualquier caso se cortan 4 de las 5 aristas del gadget $G_e$ ($(u,x)$ no pertenece al gadget).
 - Si $u,v \not \in I$, entonces agregamos $u_e$ y $v_e$ a $S$ (4 de las 5 aristas de $G_e$ se cortan.
 - El caso donde $u,v \in I$ no es posible porque $I$ es un conjunto independiente y $(u,v)$ es una arista.
 
 Como por cada $w \in I$, la arista $(x, w)$ se corta también por $S \implies$ el número de aristas que atraviesan el corte $S$ es $k + 4 \times |E|$.
 
-Ahora probaremos el sentido contrario. Dado el corte de mayor costo $S$ en $G’$ tal que $c(S) \ge k+4 \times |E|$, construiremos un conjunto independiente $I \subseteq V$ tal que $|I| \ge k$. Como el corte genera una partición sea $S_1$ sin pérdida de generalidad el subconjunto en el corte que no contiene al vértice $x$.
+($\impliedby$) Sea el corte de mayor costo $S$ en $G^*$ tal que $c(S) \ge k+4 \times |E|$. Como el corte genera una partición, sea $S_1$ sin pérdida de generalidad el subconjunto en el corte que no contiene al vértice $x$.
 
-Sea $I$ el subconjunto de $S_1$ formado por vértices de $G$, supongamos que $I$ no es un conjunto independiente entonces existe $u,v$ tal que $e = (u,v) \in E$. Es fácil ver que $S$ corta al menos tres aristas de $G_e$, ya que al menos uno de los vértices $u_e$ o $v_e$ debe estar en el otro conjunto, de lo contrario el corte no sería máximo. En cualquier otro caso (al menos $u$ o $v$ no está en $S_1$). Por tanto, siendo $m(I)$ la cantidad de aristas entre los vértices de $I$:
+Sea $I$ el subconjunto de $S_1$ formado por vértices de $G$. Si no es un conjunto independiente $ \implies \exist \ u,v$ tal que $e = (u,v) \in E$. Es fácil ver que $S$ corta al menos tres aristas de $G_e$, ya que al menos uno de los vértices $u_e$ o $v_e$ debe estar en el otro conjunto, de lo contrario el corte no sería máximo. En cualquier otro caso (al menos $u$ o $v$ no está en $S_1$). Por tanto, siendo $m(I)$ la cantidad de aristas entre los vértices de $I$:
 
 $$c(S) \le |I| +3 \times m(I)+4 \times (|E|−m(I)) = |I|+4 \times |E|−m(I)$$
 
 Como $c(S) \ge k + 4 \times |E| \implies |I| \ge k + m(I) \implies$ por cada arista entre $I$, podemos eliminar uno de los vértices para decrementar el valor de $m(I)$ en uno. Después de hacer esto al menos $m(I)$ veces,  tendremos un conjunto independiente de al menos $k$.
+
+$$-*-$$
 
 ## Set cover
 
@@ -184,21 +190,23 @@ Dado un conjunto $X$ y una colección S de subconjuntos de $X$, el problema cons
 
 #### `Set Cover es NP`
 
-Si nos dan una solución (un subcolector $S’$), podemos verificar en tiempo polinomial si cada elemento de $X$ aparece exactamente una vez en los subconjuntos de $S’$. Si el conteo es 1 para todos los elementos, la solución es válida.
+Si nos dan una solución (un subcolector $S^*$), podemos verificar en tiempo polinomial si cada elemento de $X$ aparece exactamente una vez en los subconjuntos de $S^*$. Si el conteo es 1 para todos los elementos, la solución es válida.
 
 #### `Set Cover es NP-Hard`
 
 Construimos una instancia de nuestro problema a partir de una instancia de **3DM** de la siguiente manera:
 
-- $X’ = X \cup Y \cup Z$, el conjunto $X’$ es la unión de los 3 conjuntos de $3DM$.
+- $X^* = X \cup Y \cup Z$, el conjunto $X^*$ es la unión de los 3 conjuntos de $3DM$.
 - $S = \{{x,y,z}| (x,y,z) \in T\}$: Cada tripla en $T$ se convierte en un subconjunto en $S$.
  
-Demostremos que existe un *3-matching* en la instancia de **3DM** si y solo si existe un subcolector $S’$ subconjunto de $S$ que cubre $X’$ exactamente una vez.
+Demostremos que existe un *3-matching* en la instancia de **3DM** si y solo si existe un subcolector $S^* \subseteq S$ que cubre $X^*$ exactamente una vez.
 
-$(\implies)$ Si existe un *3-matching* $M$ subconjunto de $T$ que cubre $X,Y,Z$ exactamente una vez, entonces el subcolector $S’ = \{\{x,y,z\}| (x,y,z) \in M\}$ cubre $X’$ exactamente una vez. Cada elemento de $X’$, ya sea de $X,Y$ o $Z$ aparecerá exactamente en un subconjunto de $S’$.
+$(\implies)$ Si existe un *3-matching* $M$ subconjunto de $T$ que cubre $X,Y,Z$ exactamente una vez, entonces el subcolector $S^* = \{\{x,y,z\}| (x,y,z) \in M\}$ cubre $X^*$ exactamente una vez. Cada elemento de $X^*$, ya sea de $X,Y$ o $Z$ aparecerá exactamente en un subconjunto de $S^*$.
 
-$(\impliedby)$ Si existe un subcolector $S’$ subconjunto que cubre $X’$ exactamente una vez, entonces cada elemento de $X,Y$ y $Z$ debe aparecer exactamente una vez en los subconjuntos de $S’$. Esto implica que $S’$ define un conjunto de triples $M$ subconjunto de $T$ que forma un $3-Matching$, ya que cada triple en $S’$ corresponde a un triple en $T$, y cada elemento de $X$, $Y$ y $Z$ está cubierto exactamente una vez.
+$(\impliedby)$ Si existe un subcolector $S^*$ subconjunto que cubre $X^*$ exactamente una vez, entonces cada elemento de $X,Y$ y $Z$ debe aparecer exactamente una vez en los subconjuntos de $S^*$. Esto implica que $S^*$ define un conjunto de triplas $M$ subconjunto de $T$ que forma un $3-Matching$, ya que cada triple en $S^*$ corresponde a un triple en $T$, y cada elemento de $X$, $Y$ y $Z$ está cubierto exactamente una vez.
 
-Esta reducción es polinomial, ya que la construcción de $X’$ y $S$ se puede hacer en tiempo polinomial en el tamaño de la instancia de $3DM$. Por lo tanto hemos demostrado que nuestro problema es $NP-Hard$.
+Como la construcción de $X^*$ y $S$ se puede hacer en tiempo polinomial en el tamaño de la instancia de $3DM \implies$ nuestro problema es $NP-Hard$.
 
-Como es $NP$ y $NP-Hard \implies$ es $NP-Completo$.
+$$-*-$$
+
+## 
