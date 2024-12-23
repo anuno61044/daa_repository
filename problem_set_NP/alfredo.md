@@ -6,7 +6,8 @@
 2. Conjunto dominante
 3. Máximo Corte
 4. Set cover
-5. Número domatic
+5. Retroalimentración de vértices (FVS)
+6. Número Domatic
 
 ## 1. 3D Matching
 
@@ -209,4 +210,26 @@ Como la construcción de $X^*$ y $S$ se puede hacer en tiempo polinomial en el t
 
 $$-*-$$
 
-## 
+## Retroalimentración de vértices (FVS)
+
+### Definición del problema
+
+Dado un grafo $G=(V,E)$, un conjunto de retroalimentación de vértices es un subconjunto de vértices $F \subseteq V$ tal que al eliminar todos los vértices en $F$ (y sus aristas incidentes), el grafo resultante no contiene ciclos (es un grafo acíclico o un bosque, si es no dirigido).
+
+El objetivo del problema es encontrar el conjunto de retroalimentación de vértices de tamaño mínimo.
+
+### Solución
+
+Vamos a probar que encontrar un conjunto de retroalimentación de vértices de tamaño $k$ es *NP-Completo*, llamemos el problema **k-FVS**. Reduciremos **Vertex Cover** a este.
+
+#### `k-FVS es NP`
+
+Es fácil ver que se puede comprobar en tiempo polinomial que el grafo restante de eliminar los vértices seleccionados es acíclico.
+
+#### `k-FVS es NP-Hard`
+
+Sea $G=<V,E>$ el grafo en el que aplicaremos **Vertex Cover** y $G^*=<V^*,E^*>$ con $V^*=V$ y por cada arista $(u,v) \in E$ en $G$ se cumple que $(u,v) \in E^*$ y $(v,u) \in E^*$.
+
+Nótese que por cada arista en $G$ tenemos un ciclo en $G^*$. Sea $F$ el conjunto de vértices a extraer del grafo $G^*$ por **k-FVS**, entonces se cumple que si $(u,v) \in E \implies v \in F$ o $u \in F$, ya que en $G^*$ existe el ciclo $\{u,v\}$. Por tanto, $F$ se convierte en un cubrimiento de vértices de $G$, con lo cual estaría resuelto el problema.
+
+Como es *NP* y *NP-Hard* $\implies$ es *NP-Completo*.
