@@ -7,7 +7,6 @@
 3. Máximo Corte
 4. Set cover
 5. Retroalimentración de vértices (FVS)
-6. Número Domatic
 
 ## 1. 3D Matching
 
