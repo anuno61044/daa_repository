@@ -1,0 +1,13 @@
+## Problema de asignación generalizada
+
+### Definicion
+Este problema en su forma más general es el siguiente: hay un número de agentes y un número de tareas. Cualquier agente puede ser asignado para realizar cualquier tarea, incurriendo en algún costo y beneficio que puede variar dependiendo de la asignación de agente-tarea. Además, cada agente tiene un presupuesto y la suma de los costos de las tareas que se le asignan no puede exceder este presupuesto. Se requiere encontrar una asignación en la que todos los agentes no excedan su presupuesto y el beneficio total de la asignación sea máximo.
+
+
+### Soluciones comunes
+- metodos exactos: Programación entera mixta . Garantizan encontrar la solución óptima, pero suelen ser practicos solo para instancias pequeñas.
+- metodos heurísticos: Algoritmos como greedy o algoritmos genéticos proporcionan soluciones aproximadas en un tiempo razonable.
+- metodos metaheurísticos: Simulated annealing, optimización por colonia de hormigas.
+
+### Agregando Restricciones
+En el caso especial en el que los presupuestos de todos los agentes y los costes de todas las tareas son iguales a 1, este problema se reduce al problema de asignación . Cuando los costes y beneficios de todas las tareas no varían entre los diferentes agentes, este problema se reduce al problema de la mochila múltiple. Si hay un solo agente, entonces, este problema se reduce al problema de la mochila .
